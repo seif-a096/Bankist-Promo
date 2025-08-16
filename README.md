@@ -2,7 +2,7 @@
 
 **Empowering Seamless Banking Experience. Everywhere. Anytime.**
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live-green)]([https://seif-a096.github.io/Bankist-Promo/])
+[![Live Demo](https://img.shields.io/badge/Demo-Live-green)](https://seif-a096.github.io/Bankist-Promo/)
 
 
 Built with the best web technologies.
