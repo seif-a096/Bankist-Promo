@@ -131,7 +131,7 @@ console.log(navheight);
 let headerObs = new IntersectionObserver(
   function (entries, obs) {
     entries.forEach(function (ent, _) {
-      console.log(ent);
+      // console.log(ent);
       if (!ent.isIntersecting) nav.classList.add('sticky');
       else nav.classList.remove('sticky');
     });
@@ -159,6 +159,91 @@ let secObserver = new IntersectionObserver(
   }
 );
 sections.forEach(sec => secObserver.observe(sec));
+
+let lazyImgs = document.querySelectorAll('img[data-src]');
+let lazyObs = new IntersectionObserver(
+  function (entries, observer) {
+    entries.forEach(function (img) {
+      if (!img.isIntersecting) return;
+      // console.log(img);
+      img.target.src = img.target.dataset.src;
+      img.target.addEventListener('load', function (e) {
+        img.target.classList.remove('lazy-img');
+      });
+      observer.unobserve(img.target);
+    });
+  },
+  {
+    root: null,
+    threshold: 0.4,
+  }
+);
+lazyImgs.forEach(function (img) {
+  lazyObs.observe(img);
+});
+let currentSlide = 0;
+let trnsFL = function (Sarr, c) {
+  Sarr.forEach((slide, i) => {
+    slide.style.transform = `translateX(${(i - c) * 100}%)`;
+  });
+};
+let moveToSlide = function (i) {
+  currentSlide = i;
+  trnsFL(slides, i);
+};
+const slides = document.querySelectorAll('.slide');
+const btnL = document.querySelector('.slider__btn--left');
+const btnR = document.querySelector('.slider__btn--right');
+const dotCont = document.querySelector('.dots');
+let makeDots = function () {
+  slides.forEach((_, i) => {
+    dotCont.insertAdjacentHTML(
+      'beforeend',
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+let dots = dotCont.children;
+console.log(dots);
+let setActive = function (i) {
+  [...dots].forEach(dot => dot.classList.remove('dots__dot--active'));
+  dots[i].classList.add('dots__dot--active');
+};
+makeDots();
+dotCont.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot'))
+    moveToSlide(+e.target.dataset.slide);
+  setActive(currentSlide);
+});
+trnsFL(slides, 0);
+setActive(currentSlide);
+let nextSlide = function (e) {
+  if (currentSlide == slides.length - 1) {
+    currentSlide = 0;
+  } else currentSlide++;
+  trnsFL(slides, currentSlide);
+  setActive(currentSlide);
+};
+let previousSlide = function () {
+  if (currentSlide == 0) {
+    currentSlide = slides.length - 1;
+  } else currentSlide--;
+  trnsFL(slides, currentSlide);
+  setActive(currentSlide);
+};
+btnR.addEventListener('click', nextSlide);
+btnL.addEventListener('click', previousSlide);
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowRight') nextSlide();
+});
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft') previousSlide();
+});
+
+window.addEventListener('unload', function (e) {
+  e.preventDefault();
+});
+
 /////////////////////////////////////////////
 // console.log(document.documentElement);
 // let body = document.body;
