@@ -12,6 +12,7 @@ const section1 = document.getElementById('section--1');
 const operations = document.querySelector('.operations');
 const nav = document.querySelector('.nav');
 const logo = document.querySelector('#logo');
+const header = document.querySelector('.header');
 
 const openModal = function (event) {
   event.preventDefault();
@@ -120,7 +121,44 @@ nav.addEventListener('mouseout', function () {
     logo.style.opacity = 1;
   });
 });
+// window.addEventListener('scroll', function (e) {
+//   let sec1Dim = section1.getBoundingClientRect();
+//   if (this.scrollY > sec1Dim.top) nav.classList.add('sticky');
+//   else nav.classList.remove('sticky');
+// });
+let navheight = nav.getBoundingClientRect();
+console.log(navheight);
+let headerObs = new IntersectionObserver(
+  function (entries, obs) {
+    entries.forEach(function (ent, _) {
+      console.log(ent);
+      if (!ent.isIntersecting) nav.classList.add('sticky');
+      else nav.classList.remove('sticky');
+    });
+  },
+  {
+    root: null,
+    threshold: 0,
+    rootMargin: `-${navheight.height}px`,
+  }
+);
 
+headerObs.observe(header);
+//sections show up
+let sections = document.querySelectorAll('.section');
+let secObserver = new IntersectionObserver(
+  function (entries, obs) {
+    entries.forEach(sec => {
+      if (sec.isIntersecting) sec.target.classList.remove('section--hidden');
+      else sec.target.classList.add('section--hidden');
+    });
+  },
+  {
+    root: null,
+    threshold: 0.15,
+  }
+);
+sections.forEach(sec => secObserver.observe(sec));
 /////////////////////////////////////////////
 // console.log(document.documentElement);
 // let body = document.body;
