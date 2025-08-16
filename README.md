@@ -2,8 +2,8 @@
 
 **Empowering Seamless Banking Experience. Everywhere. Anytime.**
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live-green)](https://your-demo-link.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Demo-Live-green)]([https://seif-a096.github.io/Bankist-Promo/])
+
 
 Built with the best web technologies.
 
